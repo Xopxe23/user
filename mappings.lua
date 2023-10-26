@@ -1,40 +1,46 @@
--- Mapping data with "desc" stored directly by vim.keymap.set().
---
--- Please use this mappings table to set keyboard mapping since this is the
--- lower level configuration and more robust one. (which-key will
--- automatically pick-up stored data by this setting.)
-return {
-  -- first key is the mode
-  n = {
-    -- second key is the lefthand side of the map
+-- Данные маппинга со значением "desc" сохраняются напрямую с помощью vim.keymap.set().
 
-    -- navigate buffer tabs with `H` and `L`
+-- Пожалуйста, используйте эту таблицу маппингов для настройки клавиш, так как она представляет собой более низкоуровневую конфигурацию и более надежную. (which-key автоматически получит данные, сохраненные с помощью этой настройки.)
+return {
+  -- Первый ключ - это режим
+  n = {
+    -- Второй ключ - это левая часть маппинга
+
+    -- Навигация по вкладкам буфера с помощью `H` и `L`
     L = {
       function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end,
-      desc = "Next buffer",
+      desc = "Следующий буфер",
     },
     H = {
       function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
-      desc = "Previous buffer",
+      desc = "Предыдущий буфер",
     },
 
-    -- mappings seen under group name "Buffer"
+    -- Маппинги, видимые под именем группы "Buffer"
     ["<leader>bD"] = {
       function()
         require("astronvim.utils.status").heirline.buffer_picker(
           function(bufnr) require("astronvim.utils.buffer").close(bufnr) end
         )
       end,
-      desc = "Pick to close",
+      desc = "Выбрать для закрытия",
     },
-    -- tables with the `name` key will be registered with which-key if it's installed
-    -- this is useful for naming menus
-    ["<leader>b"] = { name = "Buffers" },
-    -- quick save
-    -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+
+    R = { "<Esc>:!python3 %<CR>", desc = "Запустить Python" },
+    -- Таблицы с ключом `name` будут зарегистрированы с помощью which-key, если он установлен
+    -- Это полезно для названий меню
+    ["<leader>b"] = { name = "Буферы" },
+    -- Быстрое сохранение
+    -- ["<C-s>"] = { ":w!<cr>", desc = "Сохранить файл" },  -- изменить описание, но оставить ту же команду
   },
+
+  i = {
+    -- Добавьте маппинг для входа в режим командной строки в режиме ввода
+    ["<S-Enter>"] = { '<C-o>o', desc = "Shift+Enter для новой строки" },
+  },
+
   t = {
-    -- setting a mapping to false will disable it
+    -- Установка маппинга в false отключит его
     -- ["<esc>"] = false,
   },
 }
